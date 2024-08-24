@@ -1,13 +1,19 @@
+import { atom, useRecoilState } from 'recoil';
+
 import styles from './LoginRegister.module.scss';
 import { useState } from 'react';
 import api from '../../../helpers/generalHelper';
 
 function Login() {
+    const permissionMapState = atom({key: 'permissionMap', default: {}});
+    const [permissionMap, setPermissionMap] = useRecoilState(permissionMapState);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     async function handleClick() {        
         const data = await api.post("auth/login", { email, password });
+        setPermissionMap(data.data?.permissionMap);
         console.log('response data', data);
     }
 

@@ -26,7 +26,7 @@ async function makeApiRequest(url: string, body: object, optionsOrMethod?: any |
     if (!options.headers["content-type"]) {
         options.headers["content-type"] = "application/json";
     }
-    console.log(options);
+
     return window.fetch(url, options);
 }
 

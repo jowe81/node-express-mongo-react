@@ -21,7 +21,7 @@ function Register(props: any) {
                     showError(`An error occurred: ${data.message}`);
                     return;
                 }
-
+                console.log('Response data', data);
                 navigate("/login");
             });        
     }

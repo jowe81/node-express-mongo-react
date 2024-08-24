@@ -1,5 +1,4 @@
 import dotenv from 'dotenv';
-import User from "../models/User.js";
 import getLogger from '../utilities/log.js';
 
 dotenv.config();

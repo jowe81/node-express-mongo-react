@@ -36,8 +36,6 @@ async function getModel(connection, modelContext, modelName) {
         throw new Error(`Model schema for ${modelContext} model '${modelName}' not found`);
     }
 
-    console.log("Creating and returning", modelName, fullModelName);
-
     // Create and return the model
     return connection.model(fullModelName, schema);
 }

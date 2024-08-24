@@ -11,10 +11,12 @@ const UserGlobal = new Schema(
             required: true,
             unique: true,
         },
-        password: {
-            type: String,
-            required: true,
+        userDbName: {
+
         },
+        userRecordId: {
+            
+        }
     },
     {
         timestamps: true,
