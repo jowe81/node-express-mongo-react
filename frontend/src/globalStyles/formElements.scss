@@ -1,0 +1,37 @@
+@import './variables.scss';
+
+button, input, select, textarea {
+    color: $secondary;
+    border: 1px solid $borderFormElements;
+    margin: 5px 0px;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+select {
+    height: 32px;
+}
+
+button {
+    color: $primaryInverse;
+    background-color: rgb(144, 129, 109);
+    min-width: 50px;
+    padding: 10px 5px;
+    border: 1px solid $borderFormElements;
+    font-weight: bolder;    
+}
+
+input {
+    min-height: 20px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {    
+    outline: none;
+    box-shadow: 0 0 5px $borderFormElements;
+}
+
+label {
+    margin-top: 8px;
+}

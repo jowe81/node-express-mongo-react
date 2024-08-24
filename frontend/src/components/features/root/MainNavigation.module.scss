@@ -1,0 +1,15 @@
+@import '../../../globalStyles/variables.scss';
+
+.mainNavigation {
+    ul {
+        list-style-type: none; /* Removes bullets */
+        padding: 0;            /* Removes default padding */
+        margin: 0;             /* Removes default margin */
+        display: flex;         /* Makes the list items align horizontally */
+        flex-direction: row-reverse;
+
+        li {
+            margin: 5px 10px 5px 0px;
+        }
+    }
+}

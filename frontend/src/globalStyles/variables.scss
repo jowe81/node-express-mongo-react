@@ -1,0 +1,27 @@
+/* Calculate the given opacity of a color. */
+@function setOpacity($color, $opacity) {
+  @return rgba($color, $opacity);
+}
+
+/* Overlay the given opacity of white. */
+@function whiten($color, $opacity) {
+  $red: (1 - $opacity) * red($color) + $opacity * 255;
+  $green: (1 - $opacity) * green($color) + $opacity * 255;
+  $blue: (1 - $opacity) * blue($color) + $opacity * 255;
+  @return rgb($red, $green, $blue);
+}
+
+$pageBackground: white;
+$offPageBackground: gray;
+$borderFormElements: rgb(125, 109, 61);
+
+$border: rgb(117, 108, 85);
+$borderLight: setOpacity($border, .2);
+
+$errorBackground: rgb(255, 209, 209);
+$errorBorder:rgba(200, 88, 88, 0.519);
+$errorText: rgb(161, 66, 66);
+$errorLink: rgb(216, 24, 24);
+$primary: rgb(82, 63, 16);
+$primaryInverse: whiten($primary, .95);
+$secondary: setOpacity($primary, .7);
