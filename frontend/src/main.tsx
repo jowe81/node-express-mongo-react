@@ -2,9 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import Root from './components/features/root/Root';
-import ErrorPage from './components/ErrorPage'
+import ErrorPage from './components/errorPage/ErrorPage';
 import Home from './components/features/home/Home'
 import Login from './components/features/login/Login'
+import Profile from './components/features/profile/Profile';
 import Register from './components/features/login/Register'
 import { ErrorProvider } from './contexts/ErrorContext'; // Adjust the path as needed
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
             {
                 path: "login",
                 element: <Login />,
+            },
+            {
+                path: "profile",
+                element: <Profile />
             },
             {
                 path: "register",
