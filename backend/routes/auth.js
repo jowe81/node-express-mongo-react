@@ -35,25 +35,27 @@ router.post("/login", async (req, res) => {
             throw new Error(`Invalid credentials.`);
         }
 
-        log.info(`Have ${accountsInfo.length} account(s) for ${email}.`);
-
-        // At least one account exists for this user.
-        if (!accountType || !userDbName) {
+        if (!accountType) {
+            // Get here after initial submit (just email and password).
             if (accountsInfo.length > 1) {
-                // There are multiple accounts with this email. Need user to choose one.
+                // There are multiple accounts for this user - they need to choose one.
+                log.info(`Have ${accountsInfo.length} account(s) for ${email} - user needs to choose.`);
                 return res.json({ success: true, data: { accountsInfo } });
+            } else {
+                // There's only one account - can proceed to login.
+                userDbName = accountsInfo[0].userDbName;
+                accountType = accountsInfo[0].accountType;
             }
-
-            // An account wasn't selected but there is only one.
-            userDbName = accountsInfo[0].userDbName;
-            accountType = accountsInfo[0].accountType;
+        } else {
+            // Get here after account disambiguation: account has been chosen, can proceed to login.
+            log.info(`There are multiple accounts - User chose one.`);
         }
 
-        log.info(`Signing into account type ${accountType}, database ${userDbName}...`)
-
         // Now we know which account is being signed into.
+        log.info(`Signing into account type ${accountType}, database ${userDbName}...`);
+
         const credentials = { email, password };
-        const result = await verifyUserCredentials(accountType, userDbName, credentials);
+        const result = await verifyUserCredentials(credentials, accountType, userDbName);
         if (!result) {
             // Login failed.
             throw new Error(`Invalid credentials.`);

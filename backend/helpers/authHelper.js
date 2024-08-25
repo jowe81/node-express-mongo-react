@@ -63,9 +63,9 @@ async function getAccountsInfoFromEmail(email) {
     const UserGlobal = await getBackendModel("UserGlobal");
     const userGlobalRecords = await UserGlobal.find({email});
 
-    const accountsInfo = userGlobalRecords.map(record => {
-        let label;
-        const { accountType, userRecordId, userDbName } = record;
+    const accountsInfo = userGlobalRecords.map((record) => {
+        let label, userDbName;
+        const accountType = record.accountType;        
 
         switch (accountType) {
             case "backend":
@@ -78,13 +78,13 @@ async function getAccountsInfoFromEmail(email) {
 
             case "tenant":
                 label = "<Tenant Entity Name>";
+                userDbName = record.userDbName;
                 break;
         }
 
         return {
             accountType,
             label,
-            userRecordId,
             userDbName,
         }
     });
@@ -92,16 +92,16 @@ async function getAccountsInfoFromEmail(email) {
     return accountsInfo;
 }
 
-async function verifyUserCredentials(accountType, userDbName, credentials) {
+async function verifyUserCredentials(credentials, accountType, userDbName = null) {
     const { email, password } = credentials;
-    if (!email || !password || !accountType || !userDbName) {
+    if (!email || !password || !accountType) {
         log.error(`verifyUserCredentials: Parameters missing`);
         return null;
     }
 
     let User;
 
-    switch(accountType) {
+    switch (accountType) {
         case "backend":
             User = await getBackendModel("User");
             break;
@@ -121,7 +121,7 @@ async function verifyUserCredentials(accountType, userDbName, credentials) {
 
     const user = await User.findOne({ email });
     if (!user) {
-        return null;;
+        return null;
     }
 
     const passwordMatches = await user.matchPassword(password);
@@ -129,7 +129,7 @@ async function verifyUserCredentials(accountType, userDbName, credentials) {
         log.info(`Failed verification for ${email} on ${userDbName}.`);
         return null;
     }
-     
+
     // Login successful.
     log.info(`Successful verification for ${email} on ${userDbName}.`);
     return { status: "success", userInfo: user.toObject() };
