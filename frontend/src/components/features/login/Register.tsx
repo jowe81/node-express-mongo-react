@@ -2,7 +2,7 @@ import styles from './LoginRegister.module.scss';
 import { useState } from 'react';
 import api from '../../../helpers/generalHelper';
 import { useNavigate } from 'react-router-dom';
-import { useFlashMessage } from '../../../contexts/FlashMessageContext';
+import { useFlashMessage } from '../../../contexts/FlashMessageContext.tsx';
 
 function Register(props: any) {
     const [email, setEmail] = useState("");
@@ -21,7 +21,7 @@ function Register(props: any) {
                     return;
                 }
                 console.log('Response data', data);
-                //flashMessage(`Account registered successfully. You may login now.`);
+                flashMessage(`Account registered successfully. You may login now.`, 1);
                 navigate("/login");
             });        
     }

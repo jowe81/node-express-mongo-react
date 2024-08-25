@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useFlashMessage } from "../../../contexts/FlashMessageContext.tsx";
 import styles from "./FlashMessageDisplay.module.scss";
 
 const FlashMessageDisplay: React.FC = () => {
-    const { message, messageType, clearFlash } = useFlashMessage();
+    const { message, messageType, clearFlash, keepAfterRouteChanges, decreaseKeepAfterRouteChanges } = useFlashMessage();
     const location = useLocation();
-
+        
     useEffect(() => {
-        // Clear the message when the route changes (on navigation).
         if (message) {
-            clearFlash();
+            if (keepAfterRouteChanges === 0) {
+                clearFlash();
+            } else {
+                decreaseKeepAfterRouteChanges();
+            }
         }
     }, [location.pathname]);
 
