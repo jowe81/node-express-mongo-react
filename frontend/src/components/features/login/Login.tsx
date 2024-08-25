@@ -3,7 +3,7 @@ import { atom, useRecoilState } from 'recoil';
 import styles from './LoginRegister.module.scss';
 import { useState } from 'react';
 import api from '../../../helpers/generalHelper';
-import { useError } from "../../../contexts/ErrorContext";
+import { useFlashMessage } from "../../../contexts/FlashMessageContext.tsx";
 
 function Login() {
     //const permissionMapState = atom({key: 'permissionMap', default: {}});
@@ -14,13 +14,13 @@ function Login() {
     const [accountIndex, setAccountIndex] = useState(0);
     const [accountsInfo, setAccountsInfo] = useState([]);
 
-    const { showError, clearError } = useError();
+    const { flashError, clearFlash } = useFlashMessage();
 
     const accountSelectorActive = accountsInfo.length > 1;
 
     async function handleLoginBtnClick() {        
         // Clear any error from previous attempt.
-        clearError();
+        clearFlash();
 
         // Construct payload.
         const payload: any = {};
@@ -39,7 +39,7 @@ function Login() {
             .then((res) => {
                 console.log("data", res);
                 if (!res.success) {
-                    return showError(res.message);
+                    return flashError(res.message);
                 }
 
                 const data = res.data;
@@ -51,7 +51,7 @@ function Login() {
             })
             .catch((err) => {
                 console.log("error", err);
-                showError(err.message);
+                flashError(err.message);
             });
     }
 

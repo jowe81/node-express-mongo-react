@@ -18,10 +18,18 @@ $borderFormElements: rgb(125, 109, 61);
 $border: rgb(117, 108, 85);
 $borderLight: setOpacity($border, .2);
 
+/* Main colors */
+$primary: rgb(82, 63, 16);
+$primaryInverse: whiten($primary, .95);
+$secondary: setOpacity($primary, .7);
+
+/* Flash messages */
 $errorBackground: rgb(255, 209, 209);
 $errorBorder:rgba(200, 88, 88, 0.519);
 $errorText: rgb(161, 66, 66);
 $errorLink: rgb(216, 24, 24);
-$primary: rgb(82, 63, 16);
-$primaryInverse: whiten($primary, .95);
-$secondary: setOpacity($primary, .7);
+$messageBackground: rgb(209, 255, 209);
+$messageBorder:rgba(88, 200, 88, 0.519);
+$messageText: rgb(66, 161, 66);
+$messageLink: rgb(24, 216, 24);
+

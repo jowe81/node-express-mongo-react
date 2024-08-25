@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import MainHeader from "./MainHeader";
 import MainNavigation from "./MainNavigation";
-import ErrorDisplay from './ErrorDisplay.tsx';
+import FlashMessageDisplay from './FlashMessageDisplay.tsx';
 
 import styles from './Root.module.scss'
 
@@ -13,7 +13,7 @@ function Root() {
                 <MainNavigation />
             </div>
             <div id="rootOutlet" className={styles.rootOutlet}>
-                <ErrorDisplay />
+                <FlashMessageDisplay />
                 <Outlet />
             </div>
         </div>

@@ -1,0 +1,61 @@
+@import "../../../globalStyles/variables.scss";
+
+.flashMessageContainer {    
+    min-height: 30px;
+    top: -1px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    padding: 10px 15px;
+
+
+    .flashMessageHeaderContainer {
+        display: flex;
+        justify-content:  space-between;
+
+        .errorHeader {
+            font-size: smaller;
+            font-style: italic;
+        }
+
+        .errorCloseButton {
+        }
+    }
+
+    .errorText {
+        // font-weight: bold;
+    }    
+}
+
+.error {
+    background-color: $errorBackground;
+    border-bottom: 1px solid $errorBorder;
+    border-top: 1px solid $errorBorder;
+    color: $errorText;
+
+    a, a:visited {
+        color:$errorText;
+    }
+
+    a:hover {
+        color: $errorLink;
+        box-shadow: 0 3px 5px rgba($errorText, .3);
+    }
+}
+
+.message {
+    background-color: $messageBackground;
+    border-bottom: 1px solid $messageBorder;
+    border-top: 1px solid $messageBorder;
+    color: $messageText;
+
+    a, a:visited {
+        color:$messageText;
+    }
+
+    a:hover {
+        color: $messageLink;
+        box-shadow: 0 3px 5px rgba($messageText, .3);
+    }
+}
+

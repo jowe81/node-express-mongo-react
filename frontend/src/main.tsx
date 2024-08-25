@@ -8,7 +8,7 @@ import Home from './components/features/home/Home'
 import Login from './components/features/login/Login'
 import Profile from './components/features/profile/Profile';
 import Register from './components/features/login/Register'
-import { ErrorProvider } from './contexts/ErrorContext'; // Adjust the path as needed
+import { FlashMessageProvider } from './contexts/FlashMessageContext'; // Adjust the path as needed
 
 import './globalStyles/index.scss'
 import "./globalStyles/formElements.scss"
@@ -47,9 +47,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
         <RecoilRoot>
-            <ErrorProvider>
+            <FlashMessageProvider>
                 <RouterProvider router={router} />
-            </ErrorProvider>
+            </FlashMessageProvider>
         </RecoilRoot>
     </React.StrictMode>
 );

@@ -2,7 +2,7 @@ import styles from './LoginRegister.module.scss';
 import { useState } from 'react';
 import api from '../../../helpers/generalHelper';
 import { useNavigate } from 'react-router-dom';
-import { useError } from '../../../contexts/ErrorContext';
+import { useFlashMessage } from '../../../contexts/FlashMessageContext';
 
 function Register(props: any) {
     const [email, setEmail] = useState("");
@@ -10,17 +10,18 @@ function Register(props: any) {
     const [accountType, setAccountType] = useState("backend");
 
     const navigate = useNavigate();
-    const { showError } = useError();
+    const { flashError, flashMessage } = useFlashMessage();
 
     async function handleClick() {        
         api
             .post("auth/register", { accountType, email, password })
             .then(data => {
                 if (!data.success) {
-                    showError(data.message);
+                    flashError(data.message);
                     return;
                 }
                 console.log('Response data', data);
+                //flashMessage(`Account registered successfully. You may login now.`);
                 navigate("/login");
             });        
     }
