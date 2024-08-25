@@ -14,8 +14,13 @@ router.post("/register", async (req, res) => {
         await registerUser(accountType, email, password);
         res.json({ success: true, data: {}});
     } catch (error) {
-        console.log(error)
-        res.status(400).json({ message: error.message });
+        let { message } = error;
+        switch (error.code) {
+            case 11000:
+                message = `An account has already been registered with this email.`;
+                break;
+        }
+        res.status(400).json({ message });
     }
 });
 
@@ -27,7 +32,7 @@ router.post("/login", async (req, res) => {
         const accountsInfo = await getAccountsInfoFromEmail(email);
         if (accountsInfo.length === 0) {
             // No account exists for this user.
-            return res.json({ success: false, message: `Invalid Credentials` });
+            throw new Error(`Invalid credentials.`);
         }
 
         log.info(`Have ${accountsInfo.length} account(s) for ${email}.`);
@@ -51,7 +56,7 @@ router.post("/login", async (req, res) => {
         const result = await verifyUserCredentials(accountType, userDbName, credentials);
         if (!result) {
             // Login failed.
-            return res.json({ success: false, message: `Invalid credentials.` });
+            throw new Error(`Invalid credentials.`);
         }
 
         switch (result.status) {

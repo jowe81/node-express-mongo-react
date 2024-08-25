@@ -23,11 +23,9 @@ async function getModel(connection, modelContext, modelName) {
         throw new Error(`getModel: modelContext and modelName are required.`);
     }
 
-    const fullModelName = `${modelContext}_${modelName}`.replace(/[^a-zA-Z0-9-_]/, '');
-
     // Check if the model is already registered
     if (connection.models[modelName]) {
-        return connection.models[fullModelName];
+        return connection.models[modelName];
     }
 
     // Get the schema from the registry
@@ -37,7 +35,7 @@ async function getModel(connection, modelContext, modelName) {
     }
 
     // Create and return the model
-    return connection.model(fullModelName, schema);
+    return connection.model(modelName, schema);
 }
 
 

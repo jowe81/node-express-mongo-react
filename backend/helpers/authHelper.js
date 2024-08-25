@@ -5,10 +5,17 @@ const log = getLogger();
 
 async function registerUser(accountType, email, password, tenantId = null) {
     async function registerBackendUser(email, password) {
-        const BackendUser = await getBackendModel("BackendUser");
+        const BackendUser = await getBackendModel("User");
         const backendUser = await BackendUser.create({ email, password });
         log.info(`Created backend user ${backendUser._id} (${backendUser.email}).`);
         return backendUser;
+    }
+
+    async function registerStandaloneUser(email, password) {
+        const StandaloneUser = await getStandaloneModel("User");
+        const standaloneUser = await StandaloneUser.create({ email, password });
+        log.info(`Created standalone user ${standaloneUser._id} (${standaloneUser.email}).`);
+        return standaloneUser;
     }
 
     const userGlobalData = { 
@@ -16,14 +23,30 @@ async function registerUser(accountType, email, password, tenantId = null) {
         email,
     };
 
+    let userCreated = false;
+
     switch (accountType) {
         case "backend":
             const backendUser =  await registerBackendUser(email, password);
             userGlobalData.userDbName = "backend";
             userGlobalData.userRecordId = backendUser._id;
+            userCreated = true;
             break;
+
+        case "standalone":
+            const standaloneUser = await registerStandaloneUser(email, password);
+            userGlobalData.userDbName = "standalone";
+            userGlobalData.userRecordId = standaloneUser._id;
+            userCreated = true;
+            break;
+
     }
 
+    if (!userCreated) {
+        log.error(`Failed to create account of type ${accountType} for ${email}.`);
+        throw new Error("Failed to create account.");
+        return;
+    }
 
     const UserGlobal = await getBackendModel("UserGlobal");
     const userGlobal = await UserGlobal.create(userGlobalData);
@@ -80,7 +103,7 @@ async function verifyUserCredentials(accountType, userDbName, credentials) {
 
     switch(accountType) {
         case "backend":
-            User = await getBackendModel("BackendUser");
+            User = await getBackendModel("User");
             break;
 
         case "standalone":

@@ -17,8 +17,7 @@ function Register(props: any) {
             .post("auth/register", { accountType, email, password })
             .then(data => {
                 if (!data.success) {
-                    console.log("Api returned an error.", data);
-                    showError(`An error occurred: ${data.message}`);
+                    showError(data.message);
                     return;
                 }
                 console.log('Response data', data);
