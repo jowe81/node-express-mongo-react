@@ -7,24 +7,22 @@
     right: 0;
     position: absolute;
     padding: 10px 15px;
+    transition: opacity 1.0s ease-out;
 
-
-    .flashMessageHeaderContainer {
-        display: flex;
-        justify-content:  space-between;
-
-        .errorHeader {
+    .messageText {
+        .messageHeader {
             font-size: smaller;
             font-style: italic;
         }
 
-        .errorCloseButton {
+        .messageCloseButton {
+            float: right;
         }
-    }
-
-    .errorText {
-        // font-weight: bold;
     }    
+}
+
+.flashMessageContainer.fadeOut {
+    opacity: 0;
 }
 
 .error {

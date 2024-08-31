@@ -21,7 +21,7 @@ function Register(props: any) {
                     return;
                 }
                 console.log('Response data', data);
-                flashMessage(`Account registered successfully. You may login now.`, 1);
+                flashMessage(`Account registered successfully. You may login now.`, 5000, 1);
                 navigate("/login");
             });        
     }

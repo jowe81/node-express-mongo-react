@@ -126,13 +126,13 @@ async function verifyUserCredentials(credentials, accountType, userDbName = null
 
     const passwordMatches = await user.matchPassword(password);
     if (!passwordMatches) {
-        log.info(`Failed verification for ${email} on ${userDbName}.`);
+        log.info(`Verification failed for ${email}.`);
         return null;
     }
 
     // Login successful.
-    log.info(`Successful verification for ${email} on ${userDbName}.`);
-    return { status: "success", userInfo: user.toObject() };
+    log.info(`Verification successful for ${email}.`);
+    return { status: "success", user };
 }
 
 export { getAccountsInfoFromEmail, registerUser, verifyUserCredentials };

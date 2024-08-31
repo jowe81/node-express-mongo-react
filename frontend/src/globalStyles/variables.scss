@@ -22,6 +22,7 @@ $borderLight: setOpacity($border, .2);
 $primary: rgb(82, 63, 16);
 $primaryInverse: whiten($primary, .95);
 $secondary: setOpacity($primary, .7);
+$navLink: rgb(152, 118, 31);
 
 /* Flash messages */
 $errorBackground: rgb(255, 209, 209);

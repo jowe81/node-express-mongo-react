@@ -3,11 +3,12 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 interface FlashMessageContextType {
     message: string | null;
     messageType: string;
-    flashError: (message: string, keepAfterRouteChanges?: number) => void;
-    flashMessage: (message: string, keepAfterRouteChanges?: number) => void;
+    flashError: (message: string, timeout?: number, keepAfterRouteChanges?: number) => void;
+    flashMessage: (message: string, timeout?: number, keepAfterRouteChanges?: number) => void;
     clearFlash: () => void;
     keepAfterRouteChanges: number;
     decreaseKeepAfterRouteChanges: () => void;
+    timeout: number;
 }
 
 const FlashMessageContext = createContext<FlashMessageContextType | undefined>(undefined);
@@ -28,17 +29,22 @@ export const FlashMessageProvider: React.FC<FlashMessageProviderProps> = ({ chil
     const [message, setMessage] = useState<string | null>(null);
     const [messageType, setMessageType] = useState<string>('message');
     const [keepAfterRouteChanges, setKeepAfterRouteChanges] = useState(0);
+    const [timeout, setTimeout] = useState(0);
 
-    function flashError(message: string, keepAfterRouteChanges: number = 0) {
-        setMessage(message);
-        setMessageType('error');
-        setKeepAfterRouteChanges(keepAfterRouteChanges);
+    function flashError(message: string, timeout: number=0, keepAfterRouteChanges: number = 0) {
+        flash("error", message, timeout, keepAfterRouteChanges);
     };
 
-    function flashMessage(message: string, keepAfterRouteChanges: number = 0) {
+    function flashMessage(message: string, timeout: number = 0, keepAfterRouteChanges: number = 0) {
+        flash("message", message, timeout, keepAfterRouteChanges);
+    }
+
+    function flash(messageType: string, message: string, timeout: number, keepAfterRouteChanges: number) {
+        console.log('Flashing', messageType, message);
         setMessage(message);
-        setMessageType('message');
+        setMessageType(messageType);
         setKeepAfterRouteChanges(keepAfterRouteChanges);
+        setTimeout(timeout);
     }
 
     function clearFlash() {
@@ -59,6 +65,7 @@ export const FlashMessageProvider: React.FC<FlashMessageProviderProps> = ({ chil
                 clearFlash,
                 keepAfterRouteChanges,
                 decreaseKeepAfterRouteChanges,
+                timeout,
             }}
         >
             {children}

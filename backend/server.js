@@ -15,6 +15,7 @@ const app = express();
 
 // MUST specify frontend domain and port.
 app.use(cors({ credentials: true, origin: ["http://localhost:5173"] }));
+
 // Parse req.body
 app.use(express.json());
 app.use(extractClientIp);

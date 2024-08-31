@@ -1,13 +1,13 @@
-import { atom, useRecoilState } from 'recoil';
-
+import { useRecoilState } from 'recoil';
 import styles from './LoginRegister.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../../helpers/generalHelper';
 import { useFlashMessage } from "../../../contexts/FlashMessageContext.tsx";
+import { permissionsMapState } from "../../../globalState/atoms.ts"
 
 function Login() {
-    //const permissionMapState = atom({key: 'permissionMap', default: {}});
-    //const [permissionMap, setPermissionMap] = useRecoilState(permissionMapState);
+    const [permissionsMap, setPermissionsMap] = useRecoilState(permissionsMapState);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -17,6 +17,14 @@ function Login() {
     const { flashError, clearFlash } = useFlashMessage();
 
     const accountSelectorActive = accountsInfo.length > 1;
+    const navigate = useNavigate();
+
+    // This listens for permissionsMap to be set (happens on successful login), then navigates.
+    useEffect(() => {
+        if (permissionsMap && Object.keys(permissionsMap).length > 0) {
+            navigate("/profile");
+        }
+    }, [permissionsMap]);
 
     async function handleLoginBtnClick() {        
         // Clear any error from previous attempt.
@@ -47,7 +55,11 @@ function Login() {
                 if (Array.isArray(data.accountsInfo)) {
                     setAccountsInfo(data.accountsInfo);
                 }
-                //setPermissionMap(data.permissionMap);
+
+                if (data.permissionsMap) {
+                    // Logged in.
+                    setPermissionsMap(data.permissionsMap);
+                }
             })
             .catch((err) => {
                 console.log("error", err);
@@ -55,7 +67,7 @@ function Login() {
             });
     }
 
-    function handleSelectAccount(e) {
+    function handleSelectAccount(e: any) {
         const selectedIndex = e.target.value;
         setAccountIndex(selectedIndex);
     }
