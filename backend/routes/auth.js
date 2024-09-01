@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import getLogger from '../utilities/log.js';
 import constants from '../constants.js';
 import { protect } from '../middleware/auth.js';
-import { registerUser, getAccountsInfoFromEmail, verifyUserCredentials } from "../helpers/authHelper.js";
+import { registerUser, getAccountsInfoFromEmail, verifyUserCredentials, sessionLogin, sessionLogout, sessionIsLoggedIn, sessionIsExpired } from "../helpers/authHelper.js";
 import { getPermissionsMapForUser } from '../permissionsMap.js';
 
 dotenv.config();
@@ -62,6 +62,7 @@ router.post("/login", async (req, res) => {
             throw new Error(`Invalid credentials.`);
         }
 
+        const user = result.user;
         switch (result.status) {
             case "mfa":
                 // Need more credentials.
@@ -71,10 +72,14 @@ router.post("/login", async (req, res) => {
                 // Login successful.
                 const data = {
                     permissionsMap: getPermissionsMapForUser(accountType, result.user),
-                    userInfo: result.user.toObject(),
+                    userInfo: user.toObject(),
                 };
-                req.session.loggedInAtMs = new Date().getTime();
-                return res.json({ success: true, data });
+
+                // Mark the session as logged in.
+                // This will fail on attempt to reuse a session id from a different client ip.
+                if (sessionLogin(req, accountType, userDbName, user)) {
+                    return res.json({ success: true, data });
+                }                            
         }
 
         return res.status(500);
@@ -85,14 +90,21 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/checkSession", async (req, res) => {
-    const sessionMaxLengthMs = process.env.SESSION_MAX_LENGTH_MS ?? constants.session.maxLengthMs;
-    const loggedInAtMs = req.session.loggedInAtMs;
-    const nowMs = new Date().getTime();
+    const loggedIn = sessionIsLoggedIn(req);
+    if (loggedIn) {
+        req.session.lastKeepAlive = new Date().getTime();
+    }
 
-    const loggedIn = loggedInAtMs > nowMs - sessionMaxLengthMs;
-    const expired = loggedInAtMs && loggedInAtMs < nowMs - sessionMaxLengthMs;
+    return res.json({ 
+        success: true, 
+        loggedIn: loggedIn,
+        expired: sessionIsExpired(req) 
+    });
+});
 
-    res.json({ success: true, loggedIn, expired });
+router.post("/logout", async (req, res) => {
+    sessionLogout(req);
+    res.json({ success: true, message: `You logged out successfully.`, data: {}});
 });
 
 router.get("/profile", protect, async (req, res) => {

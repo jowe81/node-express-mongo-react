@@ -2,57 +2,100 @@ import Profile from "../components/features/profile/Profile";
 import Login from "../components/features/login/Login";
 import Register from "../components/features/login/Register";
 import Home from "../components/features/home/Home";
+import Logout from "../components/features/logout/Logout";
 
 /**
  * All frontend routes are defined here in a flat list, keyed by route id.
- * The path can be defined here, it's not prescribed by the backend.
  */
-const routes: any = {
-    home: {
+const routeDefinitions: any = [
+    // Public routes.
+    {
+        id: "home",
         path: "/",
         element: <Home />,
+        public: true,
     },
-    login: {
+    {
+        id: "login",
         path: "/login",
         element: <Login />,
+        public: true,
     },
-    logout: {
+    {
+        id: "register",
+        path: "/register",
+        element: <Register />,
+        public: true,
+    },
+    {
+        id: "logout",
         path: "/logout",
-        element: <div>Logout</div>,
+        element: <Logout />,
+        public: true,
     },
-    tenantEntities: {
+
+    // Protected routes.
+    {
+        id: "tenants",
         path: "/tenants",
         element: <div>Tenant Entities</div>,
     },
-    history: {
+    {
+        id: "history",
         path: "/history",
         element: <div>History</div>,
     },
-    profile: {
+    {
+        id: "profile",
         path: "/profile",
         element: <Profile />,
     },
-    "adminTasks.people": {
+    {
+        id: "adminTasks.people",
         path: "/admin/people",
         element: <div>Admin Tasks: People</div>,
     },
-    "adminTasks.eventTypes": {
+    {
+        id: "adminTasks.eventTypes",
         path: "/admin/event-types",
         element: <div>Event Types</div>,
     },
-    "adminTasks.locations": {
+    {
+        id: "adminTasks.locations",
         path: "/admin/locations",
         element: <div>Locations</div>,
     },
-    "adminTasks.roles": {
+    {
+        id: "adminTasks.roles",
         path: "/admin/roles",
         element: <div>Roles</div>,
     },
-    register: {
-        path: "/register",
-        element: <Register />,
-    },
-};
+];
+
+// Convert the definitions to an object with react routes keyed by id.
+const routes: any = (() => {
+    const routes: any = {};
+    routeDefinitions.forEach((routeDefinition: any) => {
+        const { id, path, element } = routeDefinition;
+        if (!(id && path && element)) {
+            return;
+        }
+        
+        routes[id] = { path, element };        
+    })
+    return routes;
+})();
+
+// Put the react routes in an array as well (for convenience).
+const routesArray = Object.keys(routes).map((key) => routes[key]);
+
+function isProtectedLocation(location: any) {
+    if (!location) {
+        return null;
+    }
+    const routesFound = routesArray.filter((routeInfo: any) => routeInfo.path === location.pathname);
+    return routesFound.length > 0;
+}
 
 function getRoutePathFromRouteId(routeId: string) {
     if (!routes[routeId]) {
@@ -70,5 +113,6 @@ function getElementFromRouteId(routeId: string) {
 
 export {
     getRoutePathFromRouteId,
-    getElementFromRouteId
+    getElementFromRouteId,
+    isProtectedLocation,
 }

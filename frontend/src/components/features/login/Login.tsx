@@ -1,10 +1,10 @@
 import { useRecoilState } from 'recoil';
+import { permissionsMapState } from "../../../globalState/atoms.ts";
 import styles from './LoginRegister.module.scss';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../../helpers/generalHelper';
 import { useFlashMessage } from "../../../contexts/FlashMessageContext.tsx";
-import { permissionsMapState } from "../../../globalState/atoms.ts"
 
 function Login() {
     const [permissionsMap, setPermissionsMap] = useRecoilState(permissionsMapState);

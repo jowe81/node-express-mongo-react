@@ -16,6 +16,7 @@ function DynamicRoutes() {
         element: <Root />,
         errorElement: <ErrorPage />,
         children: [
+            // These default routes are always present.
             {
                 // Redirect to /home when visiting the root.
                 path: "/",
@@ -24,7 +25,15 @@ function DynamicRoutes() {
             {
                 path: "/home",
                 element: <Home />,
-            },                
+            },
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
         ],
     };
 
@@ -65,23 +74,9 @@ function DynamicRoutes() {
      * If the session is not logged in, return static routes.
      */    
     function getRoutes(permissionsMap: any) {
-        let routes;
+        let routes = { ...rootRoute };
 
-        if (!Object.keys(permissionsMap).length) {
-            routes = { ...rootRoute };
-            routes.children.push(
-                {
-                    path: "/login",
-                    element: <Login />,
-                },
-                {
-                    path: "/register",
-                    element: <Register />
-                },
-            );
-            return routes;
-        } else {
-            routes = { ...rootRoute };
+        if (Object.keys(permissionsMap).length) {
             routes.children.push(...getRoutesFromPermissionsMapSlice(permissionsMap));
         }
 

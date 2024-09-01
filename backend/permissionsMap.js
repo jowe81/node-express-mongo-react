@@ -48,8 +48,8 @@ function getFullDefaultPermissionsMap() {
                         },
                     },
                 },
-                login: {
-                    _navLabel: "Login",
+                logout: {
+                    _navLabel: "Logout",
                 }
             },
         },
