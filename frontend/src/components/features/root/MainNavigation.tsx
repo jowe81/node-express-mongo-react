@@ -8,7 +8,7 @@ import styles from './MainNavigation.module.scss';
 function MainNavigation() {
     const [permissionsMap, setPermissionsMap] = useRecoilState(permissionsMapState); 
 
-    function getLiElements(permissionsMap: any) {
+    function getLiElements(permissionsMap: any, depth: number = 0 ) {
         /**
          * - each item that doesn't start with _ becomes a <li>
          * - if the item has subitems that don't start with _, <ul> and recursive call
@@ -36,8 +36,8 @@ function MainNavigation() {
                 const label = permissionsMapItem._navLabel ?? itemKey;
                 return hasChildItems ? (
                     <li key={index}>
-                        <Link to="#">{label}</Link>
-                        <ul>{...getLiElements(permissionsMapItem)}</ul>
+                        <Link to="#" className={depth > 0 ? styles.expandingLink : ''}>{label}</Link>
+                        <ul>{...getLiElements(permissionsMapItem, depth + 1)}</ul>
                     </li>
                 ) : (
                     <li key={index}>

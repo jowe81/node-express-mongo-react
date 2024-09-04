@@ -46,11 +46,22 @@ function getFullDefaultPermissionsMap() {
                         eventTypes: {
                             _navLabel: "Event Types",
                         },
+                        subMenu: {
+                            _navLabel: "Sub Menu",
+                            _pages: {
+                                subPoint1: {
+                                    _navLabel: "Sub Menu Item",
+                                },
+                                subPoint2: {
+                                    _navLabel: "Sub Menu Item 2",
+                                },
+                            },
+                        },
                     },
                 },
                 logout: {
                     _navLabel: "Logout",
-                }
+                },
             },
         },
         tenant: {
