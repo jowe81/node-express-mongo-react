@@ -1,7 +1,7 @@
 import Profile from "../components/features/profile/Profile";
 import Login from "../components/features/login/Login";
 import Register from "../components/features/login/Register";
-import Home from "../components/features/home/Home";
+import PublicLandingPage from "../components/features/PublicLandingPage/PublicLandingPage.tsx";
 import Logout from "../components/features/logout/Logout";
 
 /**
@@ -12,7 +12,7 @@ const routeDefinitions: any = [
     {
         id: "home",
         path: "/",
-        element: <Home />,
+        element: <PublicLandingPage />,
         public: true,
     },
     {

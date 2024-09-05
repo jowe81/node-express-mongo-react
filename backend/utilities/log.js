@@ -41,6 +41,7 @@ function getLogger(name = DEFAULT_LOGGER_NAME) {
         debug,
         info,
         warn,
+        warning: warn,
         error,
         getBuffer,
     };

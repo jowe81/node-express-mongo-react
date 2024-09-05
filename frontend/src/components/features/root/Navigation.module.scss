@@ -1,0 +1,108 @@
+@import '../../../globalStyles/variables.scss';
+
+$navItemHeight: 32px;
+
+.mainNavigationWrapper {
+}
+
+.mainNavigation {
+    display: inline-block;
+    width: 100%;
+    
+    /* All links all levels */
+    a:hover {
+        background-color: whiten($navLink, .75);
+    }
+
+    ul {
+        /* Applies to all <ul>s starting at level 0 */
+        list-style-type: none; 
+        padding: 0;            
+        margin: 0;         
+        display: flex;
+        flex-direction: column;       
+
+        /* Applies to all <li>s starting at level 0 */
+        > li {
+            position: relative;
+            
+            /* Applies to all links starting at level 0 */
+            a {
+                display: block;
+                color: $navLink;
+                padding: 4px 16px;
+                text-decoration: none;
+            }
+
+            /* Applies to <ul>s at level 1 and deeper */
+            > ul {
+                display: none;
+                position: absolute;
+                left: 100%;
+                top: 0%;
+                min-width: 180px;
+                z-index: 1;
+                background-color: whiten($navLink, .95);
+                box-shadow: 0px 4px 12px 0px rgba(0,0,0,0.1);
+                padding: 0;
+
+                /* Applies to <li>s at level 1 and deeper */
+                > li {
+                    float: none;
+                    width: 100%;                
+
+                    /* Applies to links at level 1 and deeper */
+                    > a {
+                        padding: 4px 16px;
+                        text-decoration: none;
+                        display: block;
+                        text-align: left;
+                    }
+                }
+            }
+
+            .expandingLink {
+                background-image: url('/public/assets/nav/expandingItem.png'); 
+                background-repeat: no-repeat; 
+                background-position: center right;
+                background-size: 10px;
+            }
+        }
+
+        /* Show the dropdown when hovering over the parent list item, all levels */
+        > li:hover > ul {
+            display: flex;
+        }
+    }
+}
+
+.topNavigation {
+    float: right;    
+    ul {
+        /* Applies to all <ul>s starting at level 0 */
+        list-style-type: none; 
+        padding: 0;            
+        margin: 0;         
+        display: flex;
+        flex-direction: row;
+
+        /* Applies to all <li>s starting at level 0 */
+        > li {
+            position: relative;
+            
+            /* Applies to all links starting at level 0 */
+            a {
+                display: block;
+                color: $navLink;
+                padding: 4px 16px;
+                text-decoration: none;
+            }
+        }
+
+        /* Show the dropdown when hovering over the parent list item, all levels */
+        > li:hover > ul {
+            display: flex;
+        }
+    }
+
+}

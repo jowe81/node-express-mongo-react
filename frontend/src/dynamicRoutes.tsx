@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom"
 import { permissionsMapState } from "./globalState/atoms.js"; // Adjust path as necessary
 import Root from "./components/features/root/Root";
 import ErrorPage from "./components/errorPage/ErrorPage";
-import Home from "./components/features/home/Home";
+import PublicLandingPage from "./components/features/PublicLandingPage/PublicLandingPage.tsx";
 import Login from "./components/features/login/Login";
 import Register from "./components/features/login/Register";
 import { getRoutePathFromRouteId, getElementFromRouteId } from "./helpers/routeHelper.tsx";
@@ -24,7 +24,7 @@ function DynamicRoutes() {
             },
             {
                 path: "/home",
-                element: <Home />,
+                element: <PublicLandingPage />,
             },
             {
                 path: "/login",

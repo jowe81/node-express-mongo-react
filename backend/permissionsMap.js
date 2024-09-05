@@ -54,6 +54,14 @@ function getFullDefaultPermissionsMap() {
                                 },
                                 subPoint2: {
                                     _navLabel: "Sub Menu Item 2",
+                                    _pages: {
+                                        subPoint1: {
+                                            _navLabel: "Sub Menu 2 Item",
+                                        },
+                                        subPoint2: {
+                                            _navLabel: "Sub Menu 2 Item 2",
+                                        },
+                                    },
                                 },
                             },
                         },

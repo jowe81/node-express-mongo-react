@@ -171,28 +171,40 @@ function sessionIsExpired(req) {
     if (expiredIdledOut) {
         // Frontend check interval failed.
         // Possible reasons: connection issues, user closed browser tab or navigated away without logging out.
-        log.warning(`[${req.session.id}] Session idled out.`);
+        log.warn(`[${req.session.id}] Session idled out.`);
     }
 
     return expiredTimedOut || expiredIdledOut;
 }
 
 function sessionLogin(req, accountType, userDbName, user) {
-    // Just put a timestamp onto the session object; its validity will be checked
-    // by comparing against the maximum session length.
-    req.session.loggedInAtMs = new Date().getTime();
     if (req.session.clientIp && req.session.clientIp !== req.__clientIp) {
-        log.error(`[${req.session.id}] Attempt to reuse session from a different client IP: ${user.email} (${accountType} account${accountType === 'tenant' ? `, dbName: ${userDbName}` : ``}).`);
+        log.error(
+            `[${req.session.id}] Attempt to reuse session from a different client IP: ${
+                user.email
+            } (${accountType} account${accountType === "tenant" ? `, dbName: ${userDbName}` : ``}).`
+        );
         return false;
     }
-    
+
+    // Put a timestamp onto the session object; its validity will be checked
+    // by comparing against the maximum session length.
+    req.session.loggedInAtMs = new Date().getTime();
+
+    // Reset keepalive check.
+    req.session.lastKeepAlive = new Date().getTime();
+
     req.session.clientIp = req.__clientIp;
     req.session.email = user.email;
     req.session.accountType = accountType;
     req.session.userDbName = userDbName;
     req.session.userRecordId = user._id;
 
-    log.info(`[${req.session.id}] Login complete for ${user.email} (${accountType} account${accountType === 'tenant' ? `, dbName: ${userDbName}` : ``}).`);
+    log.info(
+        `[${req.session.id}] Login complete for ${user.email} (${accountType} account${
+            accountType === "tenant" ? `, dbName: ${userDbName}` : ``
+        }).`
+    );
     return true;
 }
 

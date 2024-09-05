@@ -1,22 +1,36 @@
 @import '../../../globalStyles/variables.scss';
 
+$rootBorder: 1px solid whiten($border, .6);
+
 .rootContainer {
     max-width: 1200px;
     height: 100%;
     margin: 0px auto;
     display: flex;
     flex-direction: column;
-}
 
-.rootOutlet {
-    padding: 10px;
-    background-color: $pageBackground;
-    flex-grow: 1; /* Fill the remaining height */
-    position: relative;
-}
+    .rootHeader {    
+        background-color: $pageBackground;
+        border-bottom: $rootBorder;
+        background-color: whiten($navLink, .95);
+    }
 
-.rootHeader {
-    padding: 10px;
-    border-bottom: 1px solid $borderLight;
-    background-color: $pageBackground;
+    .rootMain {
+        display: flex;
+        flex-grow: 1;
+
+        .rootMainSidebar {
+            width: 200px;
+            background-color: $pageBackground;
+            border-right: $rootBorder;
+            background-color: whiten($navLink, .95);
+        }
+
+        .rootMainOutlet {
+            padding: 10px;
+            background-color: $pageBackground;
+            flex-grow: 1; /* Fill the remaining height */
+            position: relative;
+        }
+    }
 }

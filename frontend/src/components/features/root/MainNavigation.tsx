@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { permissionsMapState } from "../../../globalState/atoms";
 import { getRoutePathFromRouteId } from "../../../helpers/routeHelper";
 
-import styles from './MainNavigation.module.scss';
+import styles from './Navigation.module.scss';
 
 function MainNavigation() {
     const [permissionsMap, setPermissionsMap] = useRecoilState(permissionsMapState); 
@@ -52,11 +52,11 @@ function MainNavigation() {
     const liElements = getLiElements(permissionsMap);
 
     return (
-        <nav className={styles.mainNavigation}>
-            <ul>
-                {liElements}
-            </ul>
-        </nav>
+        <div className={styles.mainNavigationWrapper}>
+            <nav className={styles.mainNavigation}>
+                <ul>{liElements}</ul>
+            </nav>
+        </div>
     );
 }
 
