@@ -19,7 +19,7 @@ function Logout() {
                 }
                 // Backend Logout successful, clear permissionsMap to let the frontend app know, and go to the landing page.
                 setPermissionsMap({});
-                navigate("/");
+                navigate("/login");
             })
             .catch((err) => {
                 console.log("error", err);
