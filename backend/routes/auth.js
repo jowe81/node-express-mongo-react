@@ -23,6 +23,7 @@ router.post("/register", async (req, res) => {
                 message = `An account has already been registered with this email.`;
                 break;
         }
+        console.log(error)
         res.status(400).json({ message });
     }
 });

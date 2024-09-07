@@ -1,20 +1,42 @@
-import UserGlobal from "./schemas/UserGlobal.js";
-import BackendUser from "./schemas/BackendUser.js";
-import StandaloneUser from "./schemas/StandaloneAndTenantUser.js";
-import TenantUser from "./schemas/StandaloneAndTenantUser.js";
+import { buildSchemaFromFormDefinition } from "./schemaHelper.js";
+import formDefinitions from "./formDefinitions.js";
 
-// Add more schemas here as needed
+
+/**
+ * Returns a schemas object like so:
+ * {
+ *      backend: {
+ *          UserGlobal
+ *          User,
+ *          OtherModels...
+ *      },
+ *      standalone: {
+ *          User,
+ *          ...
+ *      }
+ *      tenant: {
+ *          User,
+ *          ...
+ *      }
+ * }
+ */
+async function getSchemas(formDefinitions) {
+    const schemas = {};
+
+    const rootKeys = Object.keys(formDefinitions); // backend, standalone, tenant
+    for (const rootKey of rootKeys) {
+        schemas[rootKey] = {};
+
+        for (const key of Object.keys(formDefinitions[rootKey])) {
+            schemas[rootKey][key] = await buildSchemaFromFormDefinition(formDefinitions[rootKey][key]);
+        }
+    }
+
+    return schemas;
+}
+
 const modelRegistry = {
-    backend: {
-        UserGlobal,
-        User: BackendUser,
-    },
-    standalone: {
-        User: StandaloneUser,
-    },
-    tenant: {
-        User: TenantUser,
-    },
+    ...await getSchemas(formDefinitions)
 };
 
 export default modelRegistry;

@@ -3,7 +3,7 @@ import Login from "../components/features/login/Login";
 import Register from "../components/features/login/Register";
 import PublicLandingPage from "../components/features/PublicLandingPage/PublicLandingPage.tsx";
 import Logout from "../components/features/logout/Logout";
-
+import TenantEntities from "../components/features/backend/tenantEntities/TenantEntities.tsx";
 /**
  * All frontend routes are defined here in a flat list, keyed by route id.
  */
@@ -36,9 +36,9 @@ const routeDefinitions: any = [
 
     // Protected routes.
     {
-        id: "tenants",
-        path: "/tenants",
-        element: <div>Tenant Entities</div>,
+        id: "tenantEntities",
+        path: "/tenant-entities",
+        element: <TenantEntities />,
     },
     {
         id: "history",
