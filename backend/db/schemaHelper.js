@@ -59,6 +59,15 @@ async function buildSchemaFromFormDefinition(formDefinition = {}) {
         
     }
 
+    // See if there are indexes, add index definitions.
+    const indexes = formDefinition.indexes;
+    if (Array.isArray(indexes)) {
+        indexes.forEach(indexInfo => {
+            const [indexFields, indexOptions] = indexInfo;
+            schema.index(indexFields, indexOptions);
+        });
+    }
+
     return schema;
 }
 
@@ -68,14 +77,17 @@ function getMongoTypeFromField(field = {}) {
         case "text":
         case "textarea":            
         case "password":
-            return String;
+            return Schema.Types.String;
         
         case "number":
         case "integer":        
-            return Number;
+            return Schema.Types.Number;
 
         case "boolean":
-            return Boolean;
+            return Schema.Types.Boolean;
+
+        case "reference":
+            return Schema.Types.ObjectId;
     }
 
     return undefined;
